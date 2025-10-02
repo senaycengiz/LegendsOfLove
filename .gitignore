@@ -1,3 +1,4 @@
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
@@ -97,3 +98,29 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+# Unity - Otomatik üretilen klasörler (track edilmez)
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+CrashReports/
+SysInfo/
+
+# IDE / Proje dosyaları
+.vs/
+.idea/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.suo
+*.userprefs
+
+# İşletim Sistemi
+.DS_Store
+Thumbs.db
+
