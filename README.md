@@ -19,8 +19,4 @@ Düşmanlar öldürülmek yerine kalbe dönüştürülerek “iyileştirilir”.
 Zindan → Avlu → Kapı alanlarında kalpler toplanır.  
 Sayaç: “Kalp: 0/10”.
 
-## Sprint 1 (2–5 Ekim)
-- Zehra → .gitignore + README  
-- Yasemin → Level01 sahne iskeleti  
-- Şenay → Player hareket + kamera
 
