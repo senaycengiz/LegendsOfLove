@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController), typeof(Animator))]
-public class PlayerC : MonoBehaviour   // <= DOSYA ADI PlayerC.cs ise böyle kalmalı
+public class PlayerC : MonoBehaviour
 {
     [Header("Move")]
     public float moveSpeed = 4.5f;        // normal hız
@@ -21,7 +21,7 @@ public class PlayerC : MonoBehaviour   // <= DOSYA ADI PlayerC.cs ise böyle kal
 
     [Header("Shooting (Raycast)")]
     public float shootRange = 100f;
-    public LayerMask hitMask;               // Enemy
+    public LayerMask hitMask;               // Sadece Enemy işaretli olsun
     public Transform muzzle;                // Pistol/Muzzle
     public ParticleSystem muzzleFlash;      // opsiyonel
     public AudioSource shotAudio;           // opsiyonel
@@ -67,8 +67,8 @@ public class PlayerC : MonoBehaviour   // <= DOSYA ADI PlayerC.cs ise böyle kal
         if (grounded && yVel < 0f) yVel = -2f;
         yVel += gravity * Time.deltaTime;
 
-        // --- 6) Sprint (Shift)  // *** DÜZELTME: bu kısmı YORUMDAN ÇIKAR ***
-        float speed = moveSpeed;                                           // FIX: tanımlı
+        // --- 6) Sprint (Shift)
+        float speed = moveSpeed;
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             speed *= sprintMultiplier;
 
@@ -92,21 +92,65 @@ public class PlayerC : MonoBehaviour   // <= DOSYA ADI PlayerC.cs ise böyle kal
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Fire");
-            ShootRay();
+            FaceCameraYaw();   // opsiyonel: ateş anında yüzü kameraya çevir (doğal durur)
+            ShootRay();        // 2-aşamalı atış
         }
     }
 
+    // --- 2-aşamalı atış: Aim kamera merkezinden, fizik namludan ---
     void ShootRay()
     {
-        // *** DÜZELTME: Screen.height büyük 'S' ile olmalı ***
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
-        if (Physics.Raycast(ray, out RaycastHit hit, shootRange, hitMask, QueryTriggerInteraction.Ignore))
+        Camera cam = Camera.main;
+        if (!cam) return;
+
+        // 1) KAMERA MERKEZİNDEN hedef noktayı al
+        Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+        Ray aimRay = cam.ScreenPointToRay(screenCenter);
+
+        Vector3 aimPoint;
+        int aimMask = ~0; // Everything (istersen Ground|Environment|Enemy ile sınırla)
+        if (Physics.Raycast(aimRay, out RaycastHit aimHit, shootRange, aimMask, QueryTriggerInteraction.Ignore))
+            aimPoint = aimHit.point;
+        else
+            aimPoint = aimRay.origin + aimRay.direction * shootRange;
+
+        // 2) MUZZLE'DAN gerçek atış
+        Vector3 origin = muzzle ? muzzle.position : cam.transform.position;
+        Vector3 dir = (aimPoint - origin).normalized;
+
+        // Namlu gerisine ateşi engelle: hedef çok ters açıdaysa ileriye sabitle
+        if (muzzle)
+        {
+            float dot = Vector3.Dot(muzzle.forward, dir);
+            if (dot < 0.1f) dir = muzzle.forward;
+        }
+
+        // Sadece istediğin layer'ları vur (hitMask'te Enemy tikli olmalı)
+        if (Physics.Raycast(origin, dir, out RaycastHit hit, shootRange, hitMask, QueryTriggerInteraction.Ignore))
         {
             hit.collider.SendMessage("TakeHit", 10, SendMessageOptions.DontRequireReceiver);
+            // Debug.DrawLine(origin, hit.point, Color.green, 0.25f);
+        }
+        else
+        {
+            // Debug.DrawRay(origin, dir * shootRange, Color.red, 0.25f);
         }
 
         if (muzzleFlash) { muzzleFlash.gameObject.SetActive(true); muzzleFlash.Play(); }
         if (shotAudio) shotAudio.Play();
+    }
+
+    // Opsiyonel: ateş anında karakteri kameranın yatay yönüne baktır
+    void FaceCameraYaw(float turnSpeed = 20f)
+    {
+        var cam = Camera.main;
+        if (!cam) return;
+        Vector3 flatFwd = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1)).normalized;
+        if (flatFwd.sqrMagnitude > 0.0001f)
+        {
+            Quaternion look = Quaternion.LookRotation(flatFwd, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, look, turnSpeed * Time.deltaTime);
+        }
     }
 
     bool PhysicsGrounded()

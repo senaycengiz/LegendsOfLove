@@ -11931,8 +11931,8 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 256
-  muzzle: {fileID: 1470772878}
-  muzzleFlash: {fileID: 0}
+  muzzle: {fileID: 1169824374}
+  muzzleFlash: {fileID: 1470772880}
   shotAudio: {fileID: 1169824378}
 --- !u!1 &715575345
 GameObject:
@@ -21347,6 +21347,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0282d5340002a3844bd27807244d0bd8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1470772878}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0282d5340002a3844bd27807244d0bd8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1884766223}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0282d5340002a3844bd27807244d0bd8, type: 3}
       insertIndex: -1
@@ -29112,6 +29115,7 @@ MonoBehaviour:
   maxPitch: 70
   smooth: 12
   shoulderOffset: {x: 0.35, y: 1.55, z: 0}
+  lookOffset: {x: 0.4, y: 0.1, z: 0}
   collisionRadius: 0.2
   obstructionMask:
     serializedVersion: 2
@@ -33995,6 +33999,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300062, guid: 9889117518dff7b42806ad82249545f8, type: 3}
+--- !u!1 &1884766222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1884766223}
+  m_Layer: 7
+  m_Name: BarrelEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1884766223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884766222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.02, z: 0.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1169824374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1885597713
 GameObject:
   m_ObjectHideFlags: 0
