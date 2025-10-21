@@ -26,3 +26,11 @@ Assets/AssetStoreTools*
 Thumbs.db
 Assets/Art/Characters/AdventureFemale/Adventures_woman/Textures/Character_Clothes/
 LegendsOfLove1.app/
+
+# Unity gereksiz dosyalar
+Library/
+Temp/
+Build/
+*.app
+*.exe
+*.dll
