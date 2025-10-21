@@ -21,7 +21,7 @@ public class PlayerC : MonoBehaviour
 
     [Header("Shooting (Raycast)")]
     public float shootRange = 100f;
-    public LayerMask hitMask;               // Sadece Enemy işaretli olsun
+    public LayerMask hitMask;               // Enemy layer işaretli olmalı
     public Transform muzzle;                // Pistol/Muzzle
     public ParticleSystem muzzleFlash;      // opsiyonel
     public AudioSource shotAudio;           // opsiyonel
@@ -42,16 +42,16 @@ public class PlayerC : MonoBehaviour
         // --- 1) Girdi
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        Vector3 input = new Vector3(h, 0f, v);
-        input = Vector3.ClampMagnitude(input, 1f);
+        UnityEngine.Vector3 input = new UnityEngine.Vector3(h, 0f, v);
+        input = UnityEngine.Vector3.ClampMagnitude(input, 1f);
 
         // --- 2) Kameraya göre yön
         Transform cam = Camera.main ? Camera.main.transform : transform;
-        Vector3 camF = Vector3.Scale(cam.forward, new Vector3(1f, 0f, 1f)).normalized;
-        Vector3 camR = cam.right;
-        Vector3 moveDir = (camF * input.z + camR * input.x).normalized;
+        UnityEngine.Vector3 camF = UnityEngine.Vector3.Scale(cam.forward, new UnityEngine.Vector3(1f, 0f, 1f)).normalized;
+        UnityEngine.Vector3 camR = cam.right;
+        UnityEngine.Vector3 moveDir = (camF * input.z + camR * input.x).normalized;
 
-        // --- 3) Zemin
+        // --- 3) Zemin kontrolü
         bool grounded = usePhysicsGroundCheck ? PhysicsGrounded() : cc.isGrounded;
         groundedTimer -= Time.deltaTime;
         if (grounded) groundedTimer = groundedRemember;
@@ -59,7 +59,7 @@ public class PlayerC : MonoBehaviour
         // --- 4) Zıplama (Space)
         if (Input.GetKeyDown(KeyCode.Space) && groundedTimer > 0f)
         {
-            yVel = Mathf.Sqrt(jumpHeight * -2f * gravity); // v = sqrt(h * -2g)
+            yVel = Mathf.Sqrt(jumpHeight * -2f * gravity);
             anim.SetTrigger("Jump"); // Animator'da Jump trigger'ı varsa
         }
 
@@ -73,62 +73,69 @@ public class PlayerC : MonoBehaviour
             speed *= sprintMultiplier;
 
         // --- 7) Hareket uygula
-        Vector3 velocity = moveDir * speed + Vector3.up * yVel;
+        UnityEngine.Vector3 velocity = moveDir * speed + UnityEngine.Vector3.up * yVel;
         cc.Move(velocity * Time.deltaTime);
 
         // --- 8) Yönlendirme
         if (moveDir.sqrMagnitude > 0.0001f)
         {
-            Quaternion look = Quaternion.LookRotation(moveDir, Vector3.up);
+            Quaternion look = Quaternion.LookRotation(moveDir, UnityEngine.Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, look, rotationSpeed * Time.deltaTime);
         }
 
         // --- 9) Animator besleme
-        float planarSpeed = new Vector3(cc.velocity.x, 0f, cc.velocity.z).magnitude;
-        anim.SetFloat("Speed", planarSpeed);     // Blend Tree (Idle/Walk/Run) bunu kullanıyor
+        float planarSpeed = new UnityEngine.Vector3(cc.velocity.x, 0f, cc.velocity.z).magnitude;
+        anim.SetFloat("Speed", planarSpeed);
         anim.SetBool("IsGrounded", grounded);
 
-        // --- 10) Ateş (sol tık)
+        // --- 10) Ateş (Sol Tık)
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Fire");
-            FaceCameraYaw();   // opsiyonel: ateş anında yüzü kameraya çevir (doğal durur)
-            ShootRay();        // 2-aşamalı atış
+            FaceCameraYaw();   // opsiyonel: ateş anında kameraya dön
+            ShootRay();        // atış işlemi
         }
     }
 
-    // --- 2-aşamalı atış: Aim kamera merkezinden, fizik namludan ---
+    // --- 2 aşamalı atış (kamera merkezinden nişan, namludan raycast) ---
     void ShootRay()
     {
         Camera cam = Camera.main;
         if (!cam) return;
 
-        // 1) KAMERA MERKEZİNDEN hedef noktayı al
-        Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+        // 1️⃣ Kamera merkezinden hedef noktayı bul
+        UnityEngine.Vector3 screenCenter = new UnityEngine.Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
         Ray aimRay = cam.ScreenPointToRay(screenCenter);
 
-        Vector3 aimPoint;
-        int aimMask = ~0; // Everything (istersen Ground|Environment|Enemy ile sınırla)
+        UnityEngine.Vector3 aimPoint;
+        int aimMask = ~0; // her şeyi görür
         if (Physics.Raycast(aimRay, out RaycastHit aimHit, shootRange, aimMask, QueryTriggerInteraction.Ignore))
             aimPoint = aimHit.point;
         else
             aimPoint = aimRay.origin + aimRay.direction * shootRange;
 
-        // 2) MUZZLE'DAN gerçek atış
-        Vector3 origin = muzzle ? muzzle.position : cam.transform.position;
-        Vector3 dir = (aimPoint - origin).normalized;
+        // 2️⃣ Namlu yönünden gerçek atış
+        UnityEngine.Vector3 origin = muzzle ? muzzle.position : cam.transform.position;
+        UnityEngine.Vector3 dir = (aimPoint - origin).normalized;
 
-        // Namlu gerisine ateşi engelle: hedef çok ters açıdaysa ileriye sabitle
+        // Namlu çok tersse düzelt
         if (muzzle)
         {
-            float dot = Vector3.Dot(muzzle.forward, dir);
+            float dot = UnityEngine.Vector3.Dot(muzzle.forward, dir);
             if (dot < 0.1f) dir = muzzle.forward;
         }
 
-        // Sadece istediğin layer'ları vur (hitMask'te Enemy tikli olmalı)
+        // 3️⃣ Vuruş kontrolü
         if (Physics.Raycast(origin, dir, out RaycastHit hit, shootRange, hitMask, QueryTriggerInteraction.Ignore))
         {
-            hit.collider.SendMessage("TakeHit", 10, SendMessageOptions.DontRequireReceiver);
+            // Düşman vurulduysa hasar uygula
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                if (enemy != null)
+                    enemy.TakeDamage(50); // 50 hasar
+            }
+
             // Debug.DrawLine(origin, hit.point, Color.green, 0.25f);
         }
         else
@@ -136,26 +143,31 @@ public class PlayerC : MonoBehaviour
             // Debug.DrawRay(origin, dir * shootRange, Color.red, 0.25f);
         }
 
-        if (muzzleFlash) { muzzleFlash.gameObject.SetActive(true); muzzleFlash.Play(); }
-        if (shotAudio) shotAudio.Play();
+        if (muzzleFlash)
+        {
+            muzzleFlash.gameObject.SetActive(true);
+            muzzleFlash.Play();
+        }
+        if (shotAudio)
+            shotAudio.Play();
     }
 
-    // Opsiyonel: ateş anında karakteri kameranın yatay yönüne baktır
+    // Ateş anında kameraya doğru dön
     void FaceCameraYaw(float turnSpeed = 20f)
     {
         var cam = Camera.main;
         if (!cam) return;
-        Vector3 flatFwd = Vector3.Scale(cam.transform.forward, new Vector3(1, 0, 1)).normalized;
+        UnityEngine.Vector3 flatFwd = UnityEngine.Vector3.Scale(cam.transform.forward, new UnityEngine.Vector3(1, 0, 1)).normalized;
         if (flatFwd.sqrMagnitude > 0.0001f)
         {
-            Quaternion look = Quaternion.LookRotation(flatFwd, Vector3.up);
+            Quaternion look = Quaternion.LookRotation(flatFwd, UnityEngine.Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, look, turnSpeed * Time.deltaTime);
         }
     }
 
     bool PhysicsGrounded()
     {
-        Vector3 baseCenter = transform.position + cc.center + Vector3.down * (cc.height / 2f - cc.radius + groundCheckOffset);
+        UnityEngine.Vector3 baseCenter = transform.position + cc.center + UnityEngine.Vector3.down * (cc.height / 2f - cc.radius + groundCheckOffset);
         return Physics.CheckSphere(baseCenter, groundCheckRadius, groundMask, QueryTriggerInteraction.Ignore);
     }
 
@@ -163,7 +175,7 @@ public class PlayerC : MonoBehaviour
     {
         if (!usePhysicsGroundCheck || cc == null) return;
         Gizmos.color = Color.cyan;
-        Vector3 baseCenter = transform.position + cc.center + Vector3.down * (cc.height / 2f - cc.radius + groundCheckOffset);
+        UnityEngine.Vector3 baseCenter = transform.position + cc.center + UnityEngine.Vector3.down * (cc.height / 2f - cc.radius + groundCheckOffset);
         Gizmos.DrawWireSphere(baseCenter, groundCheckRadius);
     }
 }
