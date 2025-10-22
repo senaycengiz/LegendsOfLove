@@ -34,3 +34,6 @@ Build/
 *.app
 *.exe
 *.dll
+
+# Unity build output
+LegendsOfLove1.app/
