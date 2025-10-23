@@ -1,12 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+
 public class HeartCollect : MonoBehaviour
 {
-
     public int hearts = 0;
     public TMP_Text heartText;
-    public GameObject finalDoor;
+    public DoorSlideController rightDoor;  // sağ kapı
+    public DoorSlideController leftDoor;   // sol kapı
+    public int heartsNeeded = 10;
 
     void Start()
     {
@@ -21,14 +22,17 @@ public class HeartCollect : MonoBehaviour
             Destroy(other.gameObject);
             UpdateText();
 
-            if (hearts >= 10)
-                finalDoor.SetActive(false); // kapıyı aç
+            if (hearts >= heartsNeeded)
+            {
+                rightDoor?.OpenDoor();
+                leftDoor?.OpenDoor();
+            }
         }
     }
 
     void UpdateText()
     {
         if (heartText != null)
-            heartText.text = "❤️ " + hearts + "/10";
+            heartText.text = "PUAN: " + hearts + "/" + heartsNeeded;
     }
 }

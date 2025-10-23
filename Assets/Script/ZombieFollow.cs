@@ -1,4 +1,3 @@
-//using System.Numerics;
 using UnityEngine;
 
 public class ZombieFollow : MonoBehaviour
@@ -8,13 +7,18 @@ public class ZombieFollow : MonoBehaviour
     public float chaseRange = 10f;
     public float attackRange = 1.5f;
     public float rotationSpeed = 5f;
+    public float damage = 10f;            // 🔹 her saldırıda verilecek hasar
+    public float attackCooldown = 1.5f;   // 🔹 saldırı aralığı (saniye)
 
     private Animator anim;
+    private float lastAttackTime;
+    private PlayerHealth playerHealth;
 
     void Start()
     {
         anim = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        if (player) playerHealth = player.GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -36,7 +40,16 @@ public class ZombieFollow : MonoBehaviour
         else if (distance <= attackRange)
         {
             // Saldırı
-            anim?.SetTrigger("attack");
+            anim?.SetBool("isWalking", false);
+            if (Time.time - lastAttackTime > attackCooldown)
+            {
+                anim?.SetTrigger("attack");
+                lastAttackTime = Time.time;
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(damage);
+                }
+            }
         }
         else
         {
