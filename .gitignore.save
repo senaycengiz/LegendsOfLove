@@ -1,0 +1,46 @@
+# Unity gereksiz dosyalar
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+UserSettings/
+Logs/
+
+# Platform çıktıları
+*.app
+*.exe
+*.apk
+*.aab
+
+# IDE dosyaları
+.vscode/
+.idea/
+.DS_Store
+# === Unity core ===
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+Assets/AssetStoreTools*
+.vs/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Crash/Profiler
+*.stacktrace
+
+# OS junk
+.DS_Store
+Thumbs.db
+Assets/Art/Characters/AdventureFemale/Adventures_woman/Textures/Character_Clothes/
