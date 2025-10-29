@@ -1,3 +1,22 @@
+# Unity gereksiz dosyalar
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+UserSettings/
+Logs/
+
+# Platform çıktıları
+*.app
+*.exe
+*.apk
+*.aab
+
+# IDE dosyaları
+.vscode/
+.idea/
+.DS_Store
 # === Unity core ===
 [Ll]ibrary/
 [Tt]emp/
@@ -25,15 +44,3 @@ Assets/AssetStoreTools*
 .DS_Store
 Thumbs.db
 Assets/Art/Characters/AdventureFemale/Adventures_woman/Textures/Character_Clothes/
-LegendsOfLove1.app/
-
-# Unity gereksiz dosyalar
-Library/
-Temp/
-Build/
-*.app
-*.exe
-*.dll
-
-# Unity build output
-LegendsOfLove1.app/
