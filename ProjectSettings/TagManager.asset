@@ -8,6 +8,7 @@ TagManager:
   - Undefined
   - Heart
   - Prince
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - Player
   - Weapon
   - Enemy
-  - 
-  - 
+  - Ground
+  - NoSpawn
   - 
   - 
   - 
