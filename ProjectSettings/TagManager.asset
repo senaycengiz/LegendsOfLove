@@ -9,6 +9,7 @@ TagManager:
   - Heart
   - Prince
   - Ground
+  - WaypointGroup
   layers:
   - Default
   - TransparentFX
