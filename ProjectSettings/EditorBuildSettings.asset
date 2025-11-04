@@ -12,7 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Level01.unity
     guid: 77cc2705345e244d6b5cb5fb3a688d19
   - enabled: 1
-    path: Assets/LOL1.unity
+    path: Assets/Scenes 2/MainMenu.unity
+    guid: 5ccb475ea2b3047e3aa562e89c79ce04
+  - enabled: 1
+    path: Assets/Scenes 2/LOL1.unity
     guid: ffe428ba211d04c6db1b78d5b5c5d405
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
