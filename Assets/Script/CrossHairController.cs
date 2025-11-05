@@ -19,7 +19,7 @@ public class CrosshairController : MonoBehaviour
         crosshair.anchoredPosition = Vector2.zero;
     }
 
-    // Ateş etmek veya ray atmak için kullanılacak
+    // Ateş etmek veya ray atmak için 
     public Ray GetAimRay()
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);

@@ -5,9 +5,9 @@ public class PlayerUnifiedController : MonoBehaviour
 {
     [Header("References")]
     public Camera cam;                       // Main Camera
-    public Transform muzzle;                 // (ops) Silah/Muzzle
-    public ParticleSystem muzzleFx;          // (ops)
-    public AudioSource fireSfx;              // (ops)
+    public Transform muzzle;                 // Silah/Muzzle
+    public ParticleSystem muzzleFx;        
+    public AudioSource fireSfx;              
 
     [Header("Speeds")]
     public float walkSpeed = 4f;             // A/D/W/S
@@ -17,15 +17,15 @@ public class PlayerUnifiedController : MonoBehaviour
     [Header("Jump & Gravity")]
     public float jumpHeight = 1.1f;
     public float gravity = -9.81f;
-    public LayerMask groundMask;             // zeminin layer’ları (Default/Obstacle)
-    public float groundProbeRadius = 0.24f;  // ayak altı küre
-    public float groundProbeOffset = 0.03f;  // kapsül tabanının az üstü
-    public float coyoteTime = 0.12f;         // yerden ayrıldıktan sonra tolerans
-    public float jumpBufferTime = 0.10f;     // space’i erken basma toleransı
+    public LayerMask groundMask;            
+    public float groundProbeRadius = 0.24f;  
+    public float groundProbeOffset = 0.03f;  
+    public float coyoteTime = 0.12f;         
+    public float jumpBufferTime = 0.10f;    
 
     CharacterController cc;
     Animator anim;
-    Vector3 vel;                              // dikey hız
+    Vector3 vel;                              
     int upperLayer; float aimWeight;
     float coyoteCounter, jumpBufferCounter;
 
@@ -34,32 +34,31 @@ public class PlayerUnifiedController : MonoBehaviour
         cc = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         if (!cam) cam = Camera.main;
-        upperLayer = anim.GetLayerIndex("UpperBody"); // Animator layer adı birebir olmalı
+        upperLayer = anim.GetLayerIndex("UpperBody"); 
     }
 
     void Update()
     {
-        // -------- INPUT --------
+     
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         bool sprint = Input.GetKey(KeyCode.LeftShift);
-        bool aiming = Input.GetMouseButton(1);              // sağ tık
-        if (Input.GetKeyDown(KeyCode.Space))                // jump buffer
+        bool aiming = Input.GetMouseButton(1);            
+        if (Input.GetKeyDown(KeyCode.Space))               
             jumpBufferCounter = jumpBufferTime;
 
         anim.SetBool("Aim", aiming);
 
-        // -------- KAMERA EKSENLERİ --------
+     
         Vector3 cf = cam.transform.forward; cf.y = 0; cf.Normalize();
         Vector3 cr = cam.transform.right; cr.y = 0; cr.Normalize();
         Vector3 moveDir = (cf * v + cr * h);
         if (moveDir.sqrMagnitude > 1f) moveDir.Normalize();
 
-        // -------- HAREKET (yatay) + ANIM PARAM --------
         Vector3 horizontal = Vector3.zero;
         if (!aiming)
         {
-            // Serbest koşu (Locomotion / Speed)
+            // Serbest koşu
             float input01 = Mathf.Clamp01(new Vector2(h, v).magnitude);
             float speed01 = input01 * (sprint ? 1f : 0.5f);     // 0=Idle, 0.5=Walk, 1=Run
             anim.SetFloat("Speed", Mathf.Lerp(anim.GetFloat("Speed"), speed01, 10f * Time.deltaTime));
@@ -74,7 +73,6 @@ public class PlayerUnifiedController : MonoBehaviour
         }
         else
         {
-            // Aim strafe (Strafe / MoveX,MoveY) + kameraya bak
             if (cf.sqrMagnitude > 0.0001f)
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(cf), 15f * Time.deltaTime);
 
@@ -85,7 +83,6 @@ public class PlayerUnifiedController : MonoBehaviour
             horizontal = moveDir * strafeSpeed;
         }
 
-        // -------- GROUND CHECK + JUMP (coyote+buffer) --------
         bool grounded = GroundedCheck() || cc.isGrounded;
         if (grounded) coyoteCounter = coyoteTime;
         else coyoteCounter = Mathf.Max(0, coyoteCounter - Time.deltaTime);
@@ -99,14 +96,11 @@ public class PlayerUnifiedController : MonoBehaviour
             jumpBufferCounter = 0f;
         }
 
-        if (grounded && vel.y < 0f) vel.y = -2f;           // zemine yapıştır
-        vel.y += gravity * Time.deltaTime;                 // yerçekimi
+        if (grounded && vel.y < 0f) vel.y = -2f;          
+        vel.y += gravity * Time.deltaTime;         
 
-        // -------- MOVE (tek Move çağrısı) --------
         Vector3 move = horizontal * Time.deltaTime + Vector3.up * vel.y * Time.deltaTime;
         cc.Move(move);
-
-        // -------- ÜST GÖVDE LAYER AĞIRLIĞI --------
         if (upperLayer >= 0)
         {
             aimWeight = Mathf.Lerp(aimWeight, aiming ? 1f : 0f, 10f * Time.deltaTime);
@@ -114,17 +108,13 @@ public class PlayerUnifiedController : MonoBehaviour
         }
         anim.SetBool("IsGrounded", grounded);
 
-        // -------- (OPS) ATEŞ --------
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Shoot");
             if (muzzleFx) muzzleFx.Play();
             if (fireSfx) fireSfx.Play();
-            // Raycast ile vurmak istersen buraya ekleyebilirsin
         }
     }
-
-    // Ayak altında küresel ground-check
     bool GroundedCheck()
     {
         Vector3 centerWorld = transform.position + cc.center;
@@ -133,7 +123,6 @@ public class PlayerUnifiedController : MonoBehaviour
         return Physics.CheckSphere(feet, groundProbeRadius, groundMask, QueryTriggerInteraction.Ignore);
     }
 
-    // Probu sahnede görmek için
     void OnDrawGizmosSelected()
     {
         if (!TryGetComponent<CharacterController>(out var c)) return;

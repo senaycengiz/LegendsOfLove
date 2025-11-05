@@ -6,19 +6,19 @@ public class KillZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("⚠️ KillZone tetiklendi!");
+            Debug.Log("KillZone tetiklendi!");
 
-            // Oyuncunun PlayerHealth script’ini bul
+            // Oyuncunun PlayerHealth script’ini bulur
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
 
             if (playerHealth != null && playerHealth.deathPanel != null)
             {
-                // Game Over panelini aç
+                // Game Over panelini açar
                 playerHealth.deathPanel.SetActive(true);
-                Debug.Log("💀 Game Over paneli aktif edildi.");
+                Debug.Log("Game Over paneli aktif edildi.");
             }
 
-            // Oyunu dondur
+            // Oyunu dondurur
             Time.timeScale = 0f;
         }
     }
