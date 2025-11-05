@@ -5,8 +5,8 @@ using System.Collections;
 
 public class SceneFader : MonoBehaviour
 {
-    public Image fadeImage;         // FadePanel'in Image component'i
-    public float fadeDuration = 1.5f; // Kararma süresi (saniye)
+    public Image fadeImage;
+    public float fadeDuration = 1.5f; // Kararma süresi
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class SceneFader : MonoBehaviour
 
     public IEnumerator FadeAndLoadScene(string sceneName)
     {
-        // 🔹 Sadece fade-out (kararma)
+        // Sadece fade (kararma)
         float t = 0;
         while (t < fadeDuration)
         {
@@ -30,7 +30,7 @@ public class SceneFader : MonoBehaviour
         // Kısa bekleme efekti
         yield return new WaitForSecondsRealtime(0.3f);
 
-        // 🔹 Yeni sahneye geç
+        // yeni sahneye geç
         SceneManager.LoadScene(sceneName);
     }
 }

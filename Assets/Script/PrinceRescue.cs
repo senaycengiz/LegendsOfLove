@@ -6,10 +6,7 @@ public class PrinceRescue : MonoBehaviour
     [Header("References")]
     public Transform player;                 // Player transformu
     public HeartCollect heartCollect;        // Player'daki HeartCollect
-    public Animator anim;                    // Prince Animator
-    public GameObject celebrationVFX;        // (ops.) kalpler veya ışık efekti
-    public AudioSource voiceLine;            // (ops.) kısa konuşma/teşekkür sesi
-    public GameObject congratsPanel;         // (artık kullanılmayacak ama yedekte kalabilir)
+    public Animator anim;
 
     [Header("Gameplay")]
     public int requiredHearts = 10;
@@ -25,7 +22,7 @@ public class PrinceRescue : MonoBehaviour
 
     void Update()
     {
-        // Prens sürekli oyuncuya dönsün istiyorsak
+        // Prens prensese dönsün
         if (facePlayer && !rescued && player)
         {
             Vector3 dir = player.position - transform.position;
@@ -45,18 +42,18 @@ public class PrinceRescue : MonoBehaviour
         // Player temas etti mi?
         if (other.CompareTag("Player"))
         {
-            // Player referansı ve HeartCollect yoksa bul
+            // Player referansı ve HeartCollect 
             if (!player) player = other.transform;
             if (!heartCollect) heartCollect = other.GetComponent<HeartCollect>();
 
-            // Kalp sayısını kontrol et
+            // Kalp sayısını kontrol
             if (heartCollect != null && heartCollect.hearts >= requiredHearts)
             {
                 DoRescue();
             }
             else
             {
-                Debug.Log("⚠️ Prense ulaşmak için yeterli kalp yok!");
+                Debug.Log("Prense ulaşmak için yeterli kalp yok!");
             }
         }
     }
@@ -65,40 +62,26 @@ public class PrinceRescue : MonoBehaviour
     {
         rescued = true;
 
-        // 1️⃣ Animasyon
+        // Animasyon
         if (anim) anim.SetTrigger("rescued");
 
-        // 2️⃣ VFX / Ses efektleri
-        if (celebrationVFX) celebrationVFX.SetActive(true);
-        if (voiceLine) voiceLine.Play();
 
-        // 3️⃣ YOU WIN ekranı
+        //  YOU WIN ekranı
         VictoryManager victory = FindObjectOfType<VictoryManager>();
         if (victory != null)
         {
             victory.ShowWinScreen();
-            Debug.Log("🎉 YOU WIN ekranı gösterildi!");
+            Debug.Log(" YOU WIN ekranı gösterildi!");
         }
         else
         {
-            Debug.LogWarning("⚠️ VictoryManager sahnede bulunamadı! GameManager objesine eklemen gerekiyor.");
+            Debug.LogWarning(" VictoryManager sahnede bulunamadı! GameManager objesine eklemen gerekiyor.");
         }
 
-        // 4️⃣ (Opsiyonel) Oyuncu hareketini durdurmak istersen:
+        // oyuncu hareketini durdurmak:
         var controller = player.GetComponent<PlayerC>();
         if (controller) controller.enabled = false;
     }
 
-    // (İsteğe bağlı kısa sinematik)
-    /*
-    IEnumerator BriefCinematic()
-    {
-        var controller = player.GetComponent<PlayerC>();
-        if (controller) controller.enabled = false;
 
-        yield return new WaitForSeconds(2.5f);
-
-        if (controller) controller.enabled = true;
-    }
-    */
 }
