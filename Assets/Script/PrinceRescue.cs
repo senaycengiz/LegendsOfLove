@@ -9,14 +9,14 @@ public class PrinceRescue : MonoBehaviour
     public Animator anim;                    // Prince Animator
     public GameObject celebrationVFX;        // (ops.) kalpler veya ışık efekti
     public AudioSource voiceLine;            // (ops.) kısa konuşma/teşekkür sesi
-    public GameObject congratsPanel;         // (ops.) UI Panel "Tebrikler"
+    public GameObject congratsPanel;         // (artık kullanılmayacak ama yedekte kalabilir)
 
     [Header("Gameplay")]
     public int requiredHearts = 10;
     public bool facePlayer = true;
     public float faceTurnSpeed = 5f;
 
-    bool rescued = false;
+    private bool rescued = false;
 
     void Reset()
     {
@@ -25,7 +25,7 @@ public class PrinceRescue : MonoBehaviour
 
     void Update()
     {
-        // İstersen prens sürekli oyuncuya yüzünü dönebilsin
+        // Prens sürekli oyuncuya dönsün istiyorsak
         if (facePlayer && !rescued && player)
         {
             Vector3 dir = player.position - transform.position;
@@ -56,9 +56,7 @@ public class PrinceRescue : MonoBehaviour
             }
             else
             {
-                // Yeterli kalp yoksa küçük bir ipucu göstermek istersen:
-                // (World-space Canvas üzerindeki TMP_Text'i doldurabilirsin)
-                // Debug.Log("Prense ulaşmak için yeterli kalp yok!");
+                Debug.Log("⚠️ Prense ulaşmak için yeterli kalp yok!");
             }
         }
     }
@@ -67,25 +65,34 @@ public class PrinceRescue : MonoBehaviour
     {
         rescued = true;
 
-        // 1) Animasyon
+        // 1️⃣ Animasyon
         if (anim) anim.SetTrigger("rescued");
 
-        // 2) VFX / Ses
+        // 2️⃣ VFX / Ses efektleri
         if (celebrationVFX) celebrationVFX.SetActive(true);
         if (voiceLine) voiceLine.Play();
 
-        // 3) UI Panel (Tebrikler – Sevgi her engeli aşar ❤️)
-        if (congratsPanel) congratsPanel.SetActive(true);
+        // 3️⃣ YOU WIN ekranı
+        VictoryManager victory = FindObjectOfType<VictoryManager>();
+        if (victory != null)
+        {
+            victory.ShowWinScreen();
+            Debug.Log("🎉 YOU WIN ekranı gösterildi!");
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ VictoryManager sahnede bulunamadı! GameManager objesine eklemen gerekiyor.");
+        }
 
-        // 4) İstersen oyuncu kontrolünü kısa süre kilitleyebilirsin
-        // StartCoroutine(BriefCinematic());
+        // 4️⃣ (Opsiyonel) Oyuncu hareketini durdurmak istersen:
+        var controller = player.GetComponent<PlayerC>();
+        if (controller) controller.enabled = false;
     }
 
-    // Örnek mini sinematik (opsiyonel)
+    // (İsteğe bağlı kısa sinematik)
     /*
     IEnumerator BriefCinematic()
     {
-        // Player hareketini kilitle
         var controller = player.GetComponent<PlayerC>();
         if (controller) controller.enabled = false;
 
