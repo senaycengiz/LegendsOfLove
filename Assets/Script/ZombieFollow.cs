@@ -16,7 +16,7 @@ public class ZombieFollow : MonoBehaviour
 
     [Header("Zemin Kontrolü")]
     public LayerMask groundLayer;           // Sadece zemin katmanı
-    public float groundCheckDistance = 1.5f;  // Yüksek platformlar için artırıldı
+    public float groundCheckDistance = 1.5f;  // Yüksek platformlar için arttır
 
     [Header("Saldırı Ayarları")]
     public float damage = 10f;
@@ -99,7 +99,7 @@ public class ZombieFollow : MonoBehaviour
         isAttacking = false;
     }
 
-    // 🔹 Güçlendirilmiş zemin kontrolü (her katta çalışır)
+    // Güçlendirilmiş zemin kontrolü 
     bool IsGrounded()
     {
         float checkDist = groundCheckDistance;
@@ -117,7 +117,7 @@ public class ZombieFollow : MonoBehaviour
         {
             if (Physics.Raycast(p, Vector3.down, out RaycastHit hit, checkDist, groundLayer))
             {
-                // Yalnızca yatay yüzeyleri kabul et (duvar değil)
+                // Yalnızca yatay yüzeyleri kabul et 
                 if (Vector3.Angle(hit.normal, Vector3.up) < 30f)
                     return true;
             }

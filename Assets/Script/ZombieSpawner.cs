@@ -71,41 +71,41 @@ public class ZombieSpawner : MonoBehaviour
                 continue;
             }
 
-            // ✅ Zombiyi oluştur
+            // Zombiyi oluştur
             Instantiate(zombiePrefab, pos, Quaternion.identity);
             usedPositions.Add(pos);
             spawned++;
             attempts++;
         }
 
-        Debug.Log($"🧟 {spawned} zombi güvenli zeminlerde doğdu ({attempts} denemede).");
+        Debug.Log($"{spawned} zombi güvenli zeminlerde doğdu ({attempts} denemede).");
     }
 
     Vector3 FindValidGround()
     {
         for (int i = 0; i < 400; i++)
         {
-            // 🔹 Rastgele dünya konumu üret
+            // Rastgele dünya konumu üret
             Vector3 origin = new Vector3(
                 transform.position.x + Random.Range(-spawnRadius, spawnRadius),
                 transform.position.y + rayHeight,
                 transform.position.z + Random.Range(-spawnRadius, spawnRadius)
             );
 
-            // 🔹 Yukarıdan aşağı raycast
+            // Yukarıdan aşağı raycast
             if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, groundLayer))
             {
                 Vector3 pos = hit.point + Vector3.up * 0.2f;
 
-                // 🔸 Eğimli yüzeyleri atla (duvar, rampa, sütun)
+                // Eğimli yüzeyleri atla (duvar, rampa, sütun)
                 if (Vector3.Angle(hit.normal, Vector3.up) > 15f)
                     continue;
 
-                // 🔸 Prens katı (üst kat) tespiti
+                // Prens katı (üst kat) tespiti
                 if (pos.y >= maxSpawnY)
                     continue;
 
-                // 🔸 NoSpawn hacmi (örneğin prens bölgesi) içinde mi?
+                // NoSpawn hacmi (örneğin prens bölgesi) içinde mi?
                 Collider[] noSpawnHits = Physics.OverlapSphere(
                     pos + Vector3.up * 0.5f,
                     noSpawnCheckRadius,
@@ -115,7 +115,7 @@ public class ZombieSpawner : MonoBehaviour
                 if (noSpawnHits != null && noSpawnHits.Length > 0)
                     continue;
 
-                // 🔸 Duvar veya kolon isimli collider’ları atla
+                // Duvar veya kolon isimli collider’ları atla
                 string nameLower = hit.collider.name.ToLower();
                 if (nameLower.Contains("wall") || nameLower.Contains("column") || nameLower.Contains("pillar"))
                     continue;
@@ -127,7 +127,7 @@ public class ZombieSpawner : MonoBehaviour
         return Vector3.zero;
     }
 
-    // 🔹 Scene görünümünde spawn alanını görmek için
+    // Scene görünümünde spawn alanını görmek için
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

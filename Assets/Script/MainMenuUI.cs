@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MainMenuUI : MonoBehaviour
 {
-    public string gameSceneName = "Game";
+    public string gameSceneName = "LOL1";
     private SceneFader fader;
 
     void Start()

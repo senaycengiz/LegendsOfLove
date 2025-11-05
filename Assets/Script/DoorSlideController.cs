@@ -4,8 +4,8 @@ using System.Collections;
 public class DoorSlideController : MonoBehaviour
 {
     [Header("Kapı Ayarları")]
-    public UnityEngine.Vector3 slideOffset = new UnityEngine.Vector3(1.5f, 0, 0); // Kapı ne kadar yana kaysın
-    public float slideDuration = 1.5f;                    // Kaç saniyede açılsın
+    public UnityEngine.Vector3 slideOffset = new UnityEngine.Vector3(1.5f, 0, 0); // Kapının ne kadar yana kayacağı
+    public float slideDuration = 1.5f;                    // Kapı açılma süresi
     private UnityEngine.Vector3 closedPos;
     private UnityEngine.Vector3 openPos;
     private bool isOpen = false;

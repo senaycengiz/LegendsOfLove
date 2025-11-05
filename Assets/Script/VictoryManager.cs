@@ -21,7 +21,7 @@ public class VictoryManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        Debug.Log("🎉 YOU WIN ekranı açıldı!");
+        Debug.Log(" YOU WIN ekranı açıldı!");
     }
 
     public void RestartGame()

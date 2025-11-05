@@ -9,14 +9,14 @@ public class PauseManager : MonoBehaviour
 
     void Start()
     {
-        // Oyun başlarken imleci gizle
+        // Oyun başlarken imleci gizler
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
 
-        // Eğer bir önceki sahneden Time.timeScale = 0 kaldıysa düzelt
+        // Eğer bir önceki sahneden Time.timeScale = 0 kaldıysa düzeltir
         Time.timeScale = 1f;
         AudioListener.pause = false;
     }
@@ -67,7 +67,7 @@ public class PauseManager : MonoBehaviour
 
     public void OnMainMenuPressed()
     {
-        // 🎯 MainMenu’ye geçmeden önce her şeyi sıfırla
+        // MainMenu’ye geçmeden önce her şeyi sıfırlar
         Time.timeScale = 1f;
         AudioListener.pause = false;
 
