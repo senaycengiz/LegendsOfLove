@@ -17,7 +17,7 @@ public class SceneFader : MonoBehaviour
 
     public IEnumerator FadeAndLoadScene(string sceneName)
     {
-        // Sadece fade (kararma)
+        // kararma
         float t = 0;
         while (t < fadeDuration)
         {

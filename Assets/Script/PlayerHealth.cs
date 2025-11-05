@@ -25,6 +25,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        // her karede currentHealth'i targetHealth'e yaklaştır (smooth efekt)
         if (Mathf.Abs(currentHealth - targetHealth) > 0.01f)
         {
             currentHealth = Mathf.Lerp(currentHealth, targetHealth, Time.deltaTime * smoothSpeed);
@@ -36,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isDead) return;
 
+        // hemen azalma yerine hedefi belirle
         targetHealth -= amount;
         targetHealth = Mathf.Clamp(targetHealth, 0, maxHealth);
 
@@ -52,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
         float fill = currentHealth / maxHealth;
         healthBar.fillAmount = fill;
 
-        // can azaldıkça renk geçişi 
+        // can azaldıkça renk geçişi (yeşil → kırmızı)
         Color barColor = Color.Lerp(Color.red, Color.green, fill);
         healthBar.color = barColor;
     }
@@ -60,13 +62,13 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         isDead = true;
-        Debug.Log("💀 Oyuncu öldü!");
+        Debug.Log("Oyuncu öldü!");
         if (anim) anim.SetTrigger("Die");
 
-        //  Game Over panelini açar
+        // Game Over panelini aç
         if (deathPanel) deathPanel.SetActive(true);
 
-        // hareketi devre dışı bırakır
+        // hareketi devre dışı bırak
         var moveScript = GetComponent<PlayerC>();
         if (moveScript) moveScript.enabled = false;
     }

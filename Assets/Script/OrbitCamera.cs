@@ -42,12 +42,12 @@ public class OrbitCamera : MonoBehaviour
             return;
         }
 
-        // Başlangıç açılarını kaydeder
+        // Başlangıç açılarını kaydet
         UnityEngine.Vector3 e = transform.rotation.eulerAngles;
         yaw = e.y;
         pitch = e.x;
 
-        // Oyun başında fareyi kilitler
+        //Oyun başında fareyi kilitle
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -56,16 +56,16 @@ public class OrbitCamera : MonoBehaviour
     {
         if (!target) return;
 
-        // Eğer oyun duraklatıldıysa (pause menüsü açılır)
+        //Eğer oyun duraklatıldıysa 
         if (Time.timeScale == 0f)
         {
-            // Fareyi görünür bırakır, kamera hareket etmez
+            // Fareyi görünür bırak, kamera hareket etmesin
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             return;
         }
 
-        //  Oyun devam ediyorsa fareyi kilitler
+        // Oyun devam ediyorsa fareyi kilitle
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -77,12 +77,15 @@ public class OrbitCamera : MonoBehaviour
         pitch -= mouseY * sensitivityY * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
+        // Zoom
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(scroll) > 0.001f)
             distance = Mathf.Clamp(distance - scroll * 3f, minDistance, maxDistance);
 
         // Hedef noktası
         UnityEngine.Vector3 targetPos = target.position + UnityEngine.Vector3.up * targetHeight;
+
+        // Rotasyon ve ofset
         Quaternion rot = Quaternion.Euler(pitch, yaw, 0f);
         UnityEngine.Vector3 localOffset = shoulderOffset + new UnityEngine.Vector3(0f, 0f, -distance);
         UnityEngine.Vector3 desiredPos = targetPos + rot * localOffset;

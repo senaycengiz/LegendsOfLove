@@ -7578,9 +7578,6 @@ MonoBehaviour:
   player: {fileID: 714689929}
   heartCollect: {fileID: 714689931}
   anim: {fileID: 441552057}
-  celebrationVFX: {fileID: 0}
-  voiceLine: {fileID: 0}
-  congratsPanel: {fileID: 0}
   requiredHearts: 10
   facePlayer: 1
   faceTurnSpeed: 5
@@ -10815,7 +10812,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 621539753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c998a55ad8a043369ec2f10185e8f63, type: 3}
   m_Name: 
@@ -10836,6 +10833,37 @@ MonoBehaviour:
   groundProbeOffset: 0.05
   coyoteTime: 0.12
   jumpBufferTime: 0.1
+--- !u!114 &621539759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621539753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26d477b0c8ab438d92f57d4dd4f5de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4.5
+  sprintMultiplier: 1.6
+  rotationSpeed: 12
+  gravity: -9.81
+  jumpHeight: 1.25
+  groundedRemember: 0.12
+  usePhysicsGroundCheck: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckOffset: 0.05
+  groundCheckRadius: 0.18
+  shootRange: 100
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 0
+  muzzle: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  shotAudio: {fileID: 0}
 --- !u!1 &641871959
 GameObject:
   m_ObjectHideFlags: 0
@@ -12686,9 +12714,9 @@ GameObject:
   - component: {fileID: 714689929}
   - component: {fileID: 714689928}
   - component: {fileID: 714689927}
-  - component: {fileID: 714689930}
   - component: {fileID: 714689931}
   - component: {fileID: 714689932}
+  - component: {fileID: 714689933}
   m_Layer: 0
   m_Name: PlayerRoot
   m_TagString: Player
@@ -12760,38 +12788,6 @@ Transform:
   - {fileID: 836665970}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -87.5, z: 0}
---- !u!114 &714689930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 714689926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c26d477b0c8ab438d92f57d4dd4f5de7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 4.5
-  sprintMultiplier: 1.6
-  rotationSpeed: 12
-  orbitCamera: {fileID: 0}
-  gravity: -9.81
-  jumpHeight: 1.25
-  groundedRemember: 0.12
-  usePhysicsGroundCheck: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  groundCheckOffset: 0.05
-  groundCheckRadius: 0.18
-  shootRange: 100
-  hitMask:
-    serializedVersion: 2
-    m_Bits: 256
-  muzzle: {fileID: 1169824374}
-  muzzleFlash: {fileID: 1470772880}
-  shotAudio: {fileID: 1169824378}
 --- !u!114 &714689931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12826,6 +12822,37 @@ MonoBehaviour:
   healthBar: {fileID: 644457345}
   deathPanel: {fileID: 878246257}
   anim: {fileID: 714689927}
+--- !u!114 &714689933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714689926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26d477b0c8ab438d92f57d4dd4f5de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 4.5
+  sprintMultiplier: 1.6
+  rotationSpeed: 12
+  gravity: -9.81
+  jumpHeight: 1.25
+  groundedRemember: 0.12
+  usePhysicsGroundCheck: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckOffset: 0.05
+  groundCheckRadius: 0.18
+  shootRange: 100
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 256
+  muzzle: {fileID: 1169824374}
+  muzzleFlash: {fileID: 1470772880}
+  shotAudio: {fileID: 1169824378}
 --- !u!1 &715575345
 GameObject:
   m_ObjectHideFlags: 0
@@ -19114,6 +19141,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6394fe946fddfaf41bfac9f21431cf99, type: 3}
       insertIndex: -1
       addedObject: {fileID: 621539757}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6394fe946fddfaf41bfac9f21431cf99, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 621539759}
   m_SourcePrefab: {fileID: 100100000, guid: 6394fe946fddfaf41bfac9f21431cf99, type: 3}
 --- !u!1 &1056185597
 GameObject:

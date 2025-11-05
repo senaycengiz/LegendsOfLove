@@ -12,7 +12,7 @@ public class CameraZoom : MonoBehaviour
     {
         if (cineCam == null) return;
 
-     
+      
         CinemachineThirdPersonFollow follow =
             cineCam.GetComponent<CinemachineThirdPersonFollow>();
 
