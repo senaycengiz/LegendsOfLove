@@ -27,8 +27,11 @@ public class ZombieFollow : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+
+        // Oyuncu referansını al
         if (!player)
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
         if (player)
             playerHealth = player.GetComponent<PlayerHealth>();
     }

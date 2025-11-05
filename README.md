@@ -54,7 +54,7 @@ Ekrandaki *“Your Legend Begins”* ifadesi, oyuncunun hikâyesinin burada efsa
 | **UI Elemanları** | Kalp sayacı, sağlık barı, pause menüsü |
 | **AI FSM** | Idle →  Chase → Attack döngüsü |
 | **Pathfinding** | NavMesh Agent ile oyuncuya en kısa yoldan ulaşım |
-| **Ses** | Arka plan müziği, atel etme sesi , kapı açılma efekti |
+
 
 ### Pause Menüsü
 
@@ -216,7 +216,7 @@ ancak **tema, sadelik ve öğrenme odaklılık açısından özgün bir yapıya*
 ## 11. Kaynakça
 
 - **Unity Documentation:** [https://docs.unity3d.com](https://docs.unity3d.com)  
-- **FSM AI Examples:** FreeCodeCamp, Unity Forum  
+
 - **Audio Kaynakları:** Mixkit & FreeSound  
 - **Kocaeli Üniversitesi Yazılım Geliştirme Lab. I Proje Dokümanı (2025–2026)**  
 - **Görsel Tasarım ve Konsept Oluşturma:** Gemini (Google AI)
