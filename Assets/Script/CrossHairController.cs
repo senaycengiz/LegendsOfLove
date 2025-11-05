@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class CrosshairController : MonoBehaviour
 {
-    public RectTransform crosshair; // Reticle objesi
-    public Camera mainCam;          // Ana kamera
+    public RectTransform crosshair; 
+    public Camera mainCam;         
 
     void Start()
     {
@@ -15,11 +15,11 @@ public class CrosshairController : MonoBehaviour
 
     void Update()
     {
-        // Nişangah ekran merkezinde sabit kalır
+    
         crosshair.anchoredPosition = Vector2.zero;
     }
 
-    // Ateş etmek veya ray atmak için 
+    
     public Ray GetAimRay()
     {
         Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);

@@ -46,7 +46,7 @@ public class PrinceRescue : MonoBehaviour
             if (!player) player = other.transform;
             if (!heartCollect) heartCollect = other.GetComponent<HeartCollect>();
 
-            // Kalp sayısını kontrol
+            // puan sayısını kontrol
             if (heartCollect != null && heartCollect.hearts >= requiredHearts)
             {
                 DoRescue();

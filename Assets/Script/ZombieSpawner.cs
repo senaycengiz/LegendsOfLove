@@ -71,28 +71,28 @@ public class ZombieSpawner : MonoBehaviour
                 continue;
             }
 
-            // Zombiyi oluştur
+            //Zombiyi oluştur
             Instantiate(zombiePrefab, pos, Quaternion.identity);
             usedPositions.Add(pos);
             spawned++;
             attempts++;
         }
 
-        Debug.Log($"{spawned} zombi güvenli zeminlerde doğdu ({attempts} denemede).");
+        Debug.Log($"🧟 {spawned} zombi güvenli zeminlerde doğdu ({attempts} denemede).");
     }
 
     Vector3 FindValidGround()
     {
         for (int i = 0; i < 400; i++)
         {
-            // Rastgele dünya konumu üret
+            //Rastgele dünya konumu üret
             Vector3 origin = new Vector3(
                 transform.position.x + Random.Range(-spawnRadius, spawnRadius),
                 transform.position.y + rayHeight,
                 transform.position.z + Random.Range(-spawnRadius, spawnRadius)
             );
 
-            // Yukarıdan aşağı raycast
+            // 🔹 Yukarıdan aşağı raycast
             if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, groundLayer))
             {
                 Vector3 pos = hit.point + Vector3.up * 0.2f;
