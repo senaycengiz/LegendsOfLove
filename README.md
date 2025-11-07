@@ -222,7 +222,7 @@ ancak **tema, sadelik ve öğrenme odaklılık açısından özgün bir yapıya*
 - **Görsel Tasarım ve Konsept Oluşturma:** Gemini (Google AI)
 - **3D Animasyonlar:** Mixamo (https://www.mixamo.com)
 - **Teknik danışmanlık ve yönlendirme desteği:** ChatGPT (OpenAI, 2025)
-
+- **Karakter ve sahne varlıkları :** Unity Asset Store [https://assetstore.unity.com](https://assetstore.unity.com)  
 
 
 
