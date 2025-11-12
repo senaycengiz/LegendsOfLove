@@ -5,9 +5,9 @@
 **Dönem:** 2025–2026 Güz  
 **Bölüm:** Kocaeli Üniversitesi – Teknoloji Fakültesi, Bilişim Sistemleri Mühendisliği  
 **Grup Üyeleri:**  
-- Zehra Korkmaz 231307066 
-- Şenay Cengiz  231307027
-- Yasemin Atış  231307023
+- Zehra Korkmaz  231307066 
+- Şenay Cengiz   231307027
+- Yasemin Atış   231307023
 
 ---
 
@@ -34,7 +34,7 @@ Toplam 10 puana ulaşıldığında zindanın kapısı açılır ve prense ulaş�
 - **Zindan:** Oyuncu ve zombiler tek seviyelik bir haritada yer alır.Siper alınabilecek taş bloklar ve sandıklara sahiptir.
 - **Son Kapı:** 10 puan toplandığında açılır → prense giden oda
 
-### 🏁 Oyun Sonu
+### Oyun Sonu
 Oyuncu, tüm zombileri öldürüp yeterli puanı topladığında **büyük kapı açılır** ve **kapı açılma sesi efekti** çalar.  
 Ardından ekranda **“YOU WIN!”** yazısı belirir.  
 Bu ekran, prensi başarıyla kurtardığını ve görevi tamamladığını ifade eder.   
